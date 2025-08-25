@@ -73,3 +73,61 @@ export const user = async (req , res) =>{
         res.status(500).json("internal server error")
     }
 }
+
+
+
+
+export const addStudent = async (req, res) => {
+  try {
+    const {
+      id,
+      rollNo,
+      firstName,
+      middleName,
+      lastName,
+      experience,
+      skills,
+      education,
+      description,
+      activated,
+    } = req.body;
+
+    // Validate required fields
+    if (!id || !rollNo || !firstName || !lastName) {
+      return res.status(400).json({ message: "Required fields are missing" });
+    }
+
+    // Check duplicate roll number or id
+    const existingUser = await User.findOne({ $or: [{ id }, { rollNo }] });
+    if (existingUser) {
+      return res.status(400).json({ message: "ID or Roll No already exists" });
+    }
+
+    // Create new student
+    const newStudent = new User({
+      id,
+      rollNo,
+      firstName,
+      middleName,
+      lastName,
+      experience,
+      skills,
+      education,
+      description,
+      activated,
+      username: `${firstName} ${lastName}`, // just mapping
+      phone: "0000000000", // dummy (since schema requires it)
+      password: "defaultPass123", // dummy password (you can improve later)
+    });
+
+    await newStudent.save();
+
+    res.status(201).json({
+      message: "Student added successfully",
+      student: newStudent,
+    });
+  } catch (error) {
+    console.error("Error adding student:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

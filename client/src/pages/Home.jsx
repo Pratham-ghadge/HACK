@@ -1,57 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaUserGraduate, FaBlog, FaCommentDots, FaComments } from 'react-icons/fa';
 
-const StudentDashboard = () => {
-  const [user, setUser] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+function Home() {
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const fakeUser = { username: "Prathamesh" }; 
-      setUser(fakeUser);
-    };
-    fetchUser();
-  }, []);
+  const options = [
+    { label: "Student Details", path: "/student-details", icon: <FaUserGraduate size={28} /> },
+    { label: "Add Blog", path: "/add-blog", icon: <FaBlog size={28} /> },
+    { label: "Add Feedback", path: "/add-feedback", icon: <FaCommentDots size={28} /> },
+    { label: "Chat with Admin", path: "/chat-admin", icon: <FaComments size={28} /> },
+  ];
 
   return (
-    <div className="max-w-[1240px] mx-auto mt-20 p-6 text-center">
-      <h1 className="text-3xl font-bold text-blue-600">
-        Welcome {user ? user.username : "Loading..."} 🎉
-      </h1>
-
-      <button
-        onClick={() => setShowForm(!showForm)}
-        className="mt-6 text-white bg-blue-700 hover:bg-blue-800 
-                   focus:ring-4 focus:ring-blue-300 font-medium 
-                   rounded-lg text-sm px-6 py-2.5"
-      >
-        {showForm ? "Close Form" : "Open Form"}
-      </button>
-
-      {showForm && (
-        <div className="mt-6 bg-gray-100 p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Student Form</h2>
-          <form className="flex flex-col gap-4">
-            <input
-              type="text"
-              placeholder="Enter your name"
-              className="border p-2 rounded"
-            />
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="border p-2 rounded"
-            />
-            <button
-              type="submit"
-              className="bg-green-600 text-white py-2 rounded hover:bg-green-700"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      )}
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold mb-2 text-[#262E3E]">Welcome, Student!</h1>
+      <p className="mb-8 text-gray-700">Choose an option below to get started:</p>
+      <div className="flex flex-col gap-8 w-full max-w-md">
+        {options.map((opt) => (
+          <div
+            key={opt.label}
+            className="bg-[#262E3E] text-white rounded-xl p-8 flex items-center gap-4 text-xl font-bold cursor-pointer shadow-lg hover:scale-105 hover:bg-blue-900 transition-all duration-200"
+            onClick={() => navigate(opt.path)}
+          >
+            {opt.icon}
+            <span>{opt.label}</span>
+          </div>
+        ))}
+      </div>
+      
+      
     </div>
   );
-};
+}
 
-export default StudentDashboard;
+export default Home;

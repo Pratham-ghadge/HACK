@@ -10,6 +10,7 @@ import Adminlayout from './components/layouts/Adminlayout'
 import AdminUser from './pages/AdminUser'
 import AdminContact from './pages/AdminContact'
 import AdminUpdate from './pages/AdminUpdate'
+import Sform from './pages/Sfrom'
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
       <Route path ="/login" element={<Login/>} />
       <Route path ="/register" element={<Register/>} />
       <Route path ="/logout" element={<Logout/>} />
+      <Route path ="/student-details" element={<Sform/>} />
+
       <Route path='/admin' element={<Adminlayout />}>
         <Route path='user' element={<AdminUser />} />
         <Route path='contact' element={<AdminContact />} />
